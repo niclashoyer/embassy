@@ -64,6 +64,20 @@ pub fn wasm() -> TokenStream {
     }
 }
 
+pub fn avr() -> TokenStream {
+    quote! {
+        #[arduino_hal::entry]
+        fn main() -> ! {
+            let mut executor = ::embassy_executor::Executor::new();
+            let executor = unsafe { __make_static(&mut executor) };
+
+            executor.run(|spawner| {
+                spawner.must_spawn(__embassy_main(spawner));
+            })
+        }
+    }
+}
+
 pub fn std() -> TokenStream {
     quote! {
         fn main() -> ! {

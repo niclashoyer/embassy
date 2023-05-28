@@ -158,6 +158,13 @@ pub fn main_wasm(args: TokenStream, item: TokenStream) -> TokenStream {
 }
 
 #[proc_macro_attribute]
+pub fn main_avr(args: TokenStream, item: TokenStream) -> TokenStream {
+    let args = syn::parse_macro_input!(args as syn::AttributeArgs);
+    let f = syn::parse_macro_input!(item as syn::ItemFn);
+    main::run(args, f, main::avr()).unwrap_or_else(|x| x).into()
+}
+
+#[proc_macro_attribute]
 pub fn cortex_m_interrupt(args: TokenStream, item: TokenStream) -> TokenStream {
     let args = syn::parse_macro_input!(args as syn::AttributeArgs);
     let f = syn::parse_macro_input!(item as syn::ItemFn);

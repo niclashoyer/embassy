@@ -5,35 +5,52 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "async/await executor designed for embedded usage"
 repository = "https://github.com/embassy-rs/embassy"
-categories = [
-    "embedded",
-    "no-std",
-    "asynchronous",
-]
+categories = ["embedded", "no-std", "asynchronous"]
 
 [package.metadata.embassy_docs]
 src_base = "https://github.com/embassy-rs/embassy/blob/embassy-executor-v$VERSION/embassy-executor/src/"
 src_base_git = "https://github.com/embassy-rs/embassy/blob/$COMMIT/embassy-executor/src/"
 features = ["nightly", "defmt", "pender-callback"]
 flavors = [
-    { name = "std",             target = "x86_64-unknown-linux-gnu",     features = ["arch-std", "executor-thread"] },
-    { name = "wasm",            target = "wasm32-unknown-unknown",       features = ["arch-wasm", "executor-thread"] },
-    { name = "cortex-m",        target = "thumbv7em-none-eabi",          features = ["arch-cortex-m", "executor-thread", "executor-interrupt"] },
-    { name = "riscv32",         target = "riscv32imac-unknown-none-elf", features = ["arch-riscv32", "executor-thread"] },
+    { name = "std", target = "x86_64-unknown-linux-gnu", features = [
+        "arch-std",
+        "executor-thread",
+    ] },
+    { name = "wasm", target = "wasm32-unknown-unknown", features = [
+        "arch-wasm",
+        "executor-thread",
+    ] },
+    { name = "cortex-m", target = "thumbv7em-none-eabi", features = [
+        "arch-cortex-m",
+        "executor-thread",
+        "executor-interrupt",
+    ] },
+    { name = "riscv32", target = "riscv32imac-unknown-none-elf", features = [
+        "arch-riscv32",
+        "executor-thread",
+    ] },
 ]
 
 [package.metadata.docs.rs]
 default-target = "thumbv7em-none-eabi"
 targets = ["thumbv7em-none-eabi"]
-features = ["nightly", "defmt", "pender-callback", "arch-cortex-m", "executor-thread", "executor-interrupt"]
+features = [
+    "nightly",
+    "defmt",
+    "pender-callback",
+    "arch-cortex-m",
+    "executor-thread",
+    "executor-interrupt",
+]
 
 [features]
 
 # Architecture
-_arch = [] # some arch was picked
+_arch = []                                              # some arch was picked
 arch-std = ["_arch", "critical-section/std"]
 arch-cortex-m = ["_arch", "dep:cortex-m"]
 arch-xtensa = ["_arch"]
+arch-avr = ["_arch", "futures-util/portable-atomic"]
 arch-riscv32 = ["_arch"]
 arch-wasm = ["_arch", "dep:wasm-bindgen", "dep:js-sys"]
 
@@ -61,8 +78,8 @@ log = { version = "0.4.14", optional = true }
 rtos-trace = { version = "0.1.2", optional = true }
 
 futures-util = { version = "0.3.17", default-features = false }
-embassy-macros  = { version = "0.2.0", path = "../embassy-macros" }
-embassy-time  = { version = "0.1.0", path = "../embassy-time", optional = true}
+embassy-macros = { version = "0.2.0", path = "../embassy-macros" }
+embassy-time = { version = "0.1.0", path = "../embassy-time", optional = true }
 atomic-polyfill = "1.0.1"
 critical-section = "1.1"
 static_cell = "1.0"
